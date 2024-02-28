@@ -1,0 +1,24 @@
+eureka:
+  client:
+    enabled: false
+
+server:
+  port: 33333
+
+spring:
+  application:
+    name: like-service
+
+  cassandra:
+    schema-action: CREATE_IF_NOT_EXISTS
+
+    request:
+      timeout: 10s
+
+    connection:
+      connect-timeout: 10s
+      init-query-timeout: 10s
+
+    local-datacenter: datacenter_1
+
+    keyspace-name: high_five
