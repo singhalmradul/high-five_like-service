@@ -1,10 +1,9 @@
 eureka:
   client:
-    service-url:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    enabled: false
 
 server:
-  port: 33333
+  port: 8080
 
 spring:
   application:
@@ -23,3 +22,6 @@ spring:
     local-datacenter: datacenter_1
 
     keyspace-name: high_five
+
+cassandra:
+  port: 9043
