@@ -20,14 +20,14 @@ public class LikeKey {
 
     @PrimaryKeyColumn(
         name = "post_id",
-        ordinal = -9,
+        ordinal = -2,
         type = PARTITIONED
     )
     private UUID postId;
 
     @PrimaryKeyColumn(
         name = "user_id",
-        ordinal = -8,
+        ordinal = -1,
         ordering = ASCENDING
     )
     private UUID userId;
