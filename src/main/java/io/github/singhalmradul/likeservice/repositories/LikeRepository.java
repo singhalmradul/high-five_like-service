@@ -17,5 +17,4 @@ public interface LikeRepository extends CrudRepository<Like, LikeKey> {
         WHERE post_id = :postId
     """)
     long countLikesByPostId(@Param("postId") UUID postId);
-
 }

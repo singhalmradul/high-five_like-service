@@ -3,14 +3,18 @@ package io.github.singhalmradul.likeservice.handlers;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.servlet.function.ServerResponse.ok;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebInputException;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
+import io.github.singhalmradul.likeservice.model.PatchRequestBody;
 import io.github.singhalmradul.likeservice.services.LikeService;
+import jakarta.servlet.ServletException;
 import lombok.AllArgsConstructor;
 
 @Component
@@ -19,11 +23,11 @@ public class LikeHandler {
 
     private LikeService likeService;
 
-    public ServerResponse getLikesCountByPostId(ServerRequest request){
+    public ServerResponse getLikesCountByPostId(ServerRequest request) {
 
         UUID postId = UUID.fromString(request.pathVariable("postId"));
 
-        long likesCount = likeService.getLikesCountByPostId(postId);
+        int likesCount = (int) likeService.getLikesCountByPostId(postId);
 
         return (
             ok()
@@ -31,4 +35,23 @@ public class LikeHandler {
             .body(likesCount)
         );
     }
+
+    public ServerResponse likeOrUnlike(ServerRequest request) {
+
+            UUID postId = UUID.fromString(request.pathVariable("postId"));
+            PatchRequestBody body;
+            try {
+                body = request.body(PatchRequestBody.class);
+            } catch (ServletException | IOException e) {
+                throw new ServerWebInputException(e.getMessage());
+            }
+            boolean status = likeService.perform(postId, body.getUserId(), body.getOp());
+
+            return (
+                ok()
+                .contentType(APPLICATION_JSON)
+                .body(status)
+            );
+        }
+
 }

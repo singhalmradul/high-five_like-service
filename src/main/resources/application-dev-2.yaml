@@ -22,6 +22,3 @@ spring:
     local-datacenter: datacenter_1
 
     keyspace-name: high_five
-
-cassandra:
-  port: 9043
