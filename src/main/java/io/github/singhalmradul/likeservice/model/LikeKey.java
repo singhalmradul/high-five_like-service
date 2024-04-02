@@ -8,13 +8,13 @@ import java.util.UUID;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @PrimaryKeyClass
 public class LikeKey {
 

@@ -17,7 +17,8 @@ public class RouterConfiguration {
 
         return (
             route()
-            .GET("/posts/{postId}/likes", likeHandler::getLikesCountByPostId)
+            .GET("/posts/{postId}/likes/count", likeHandler::getLikesCountByPostId)
+            .PATCH("/posts/{postId}/likes", likeHandler::likeOrUnlike)
             .build()
         );
     }
