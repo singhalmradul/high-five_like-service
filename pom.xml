@@ -88,7 +88,6 @@
 					<image>
 						<name>singhalmradul/high-five_${project.artifactId}:${project.version}</name>
 					</image>
-					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 				</configuration>
 			</plugin>
 		</plugins>

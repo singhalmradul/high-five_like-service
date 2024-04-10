@@ -7,8 +7,11 @@ public interface LikeHandler {
 
     ServerResponse getLikesCountByPostId(ServerRequest request);
 
-    ServerResponse likeOrUnlike(ServerRequest request);
+    ServerResponse like(ServerRequest request);
+
+    ServerResponse unlike(ServerRequest request);
 
     ServerResponse isLikedByUser(ServerRequest request);
 
+    ServerResponse getAllLikes(ServerRequest request);
 }

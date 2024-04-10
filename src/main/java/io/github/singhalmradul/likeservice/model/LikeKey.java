@@ -3,6 +3,7 @@ package io.github.singhalmradul.likeservice.model;
 import static org.springframework.data.cassandra.core.cql.Ordering.ASCENDING;
 import static org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @PrimaryKeyClass
-public class LikeKey {
+public class LikeKey implements Serializable{
 
     @PrimaryKeyColumn(
         name = "post_id",

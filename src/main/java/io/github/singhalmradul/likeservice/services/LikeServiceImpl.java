@@ -8,7 +8,6 @@ import org.springframework.web.server.ServerWebInputException;
 
 import io.github.singhalmradul.likeservice.model.Like;
 import io.github.singhalmradul.likeservice.model.LikeKey;
-import io.github.singhalmradul.likeservice.model.Operation;
 import io.github.singhalmradul.likeservice.proxies.PostServiceProxy;
 import io.github.singhalmradul.likeservice.proxies.UserServiceProxy;
 import io.github.singhalmradul.likeservice.repositories.LikeRepository;
@@ -28,18 +27,6 @@ public class LikeServiceImpl implements LikeService {
         return repository.countLikesByPostId(postId);
     }
 
-    @Override
-    public boolean perform(UUID postId, UUID userId, Operation operation) {
-
-        if (operation == Operation.LIKE) {
-            // validate(postId, userId);
-            return repository.save(Like.builder().postId(postId).userId(userId).build()) != null;
-        } else {
-            repository.delete(Like.builder().postId(postId).userId(userId).build());
-            return true;
-        }
-    }
-
     private void validate(UUID postId, UUID userId) {
 
         boolean valid = userServiceProxy.existsByUserId(userId)
@@ -53,7 +40,32 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public boolean isLikedByUser(UUID postId, UUID userId) {
 
-        System.out.println("\033[1;91m"+"post_id= " + postId+ ",user_id= " + userId+ ",is_liked= " + repository.existsById(new LikeKey(postId, userId))+"\033[0m" );
         return repository.existsById(new LikeKey(postId, userId));
+    }
+
+    @Override
+    public void like(UUID postId, UUID userId) {
+        System.out.println("" +
+            "\033[1;91m" +
+            "user_id= " + userId + " liked " + "post_id= " + postId+ "," +
+            "\033[0m"
+        );
+        validate(postId, userId);
+        repository.save(Like.builder().postId(postId).userId(userId).build());
+    }
+
+    @Override
+    public void unlike(UUID postId, UUID userId) {
+        System.out.println("" +
+            "\033[1;91m" +
+            "user_id= " + userId + " unliked " + "post_id= " + postId+ "," +
+            "\033[0m"
+        );
+        repository.delete(Like.builder().postId(postId).userId(userId).build());
+    }
+
+    @Override
+    public Iterable<Like> getAllLikes() {
+        return repository.findAll();
     }
 }

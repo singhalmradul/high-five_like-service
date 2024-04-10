@@ -12,7 +12,7 @@ import org.springframework.web.server.ServerWebInputException;
 import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.function.ServerResponse;
 
-import io.github.singhalmradul.likeservice.model.PatchRequestBody;
+import io.github.singhalmradul.likeservice.model.IdOnly;
 import io.github.singhalmradul.likeservice.services.LikeService;
 import jakarta.servlet.ServletException;
 import lombok.AllArgsConstructor;
@@ -40,26 +40,6 @@ public class LikeHandlerImpl implements LikeHandler {
     }
 
     @Override
-    public ServerResponse likeOrUnlike(ServerRequest request) {
-
-        UUID postId = UUID.fromString(request.pathVariable(POST_ID));
-        PatchRequestBody body;
-        try {
-            body = request.body(PatchRequestBody.class);
-        } catch (ServletException | IOException e) {
-            throw new ServerWebInputException(e.getMessage());
-        }
-
-        boolean status = likeService.perform(postId, body.getUserId(), body.getOp());
-
-        return (
-            ok()
-            .contentType(APPLICATION_JSON)
-            .body(status)
-        );
-    }
-
-    @Override
     public ServerResponse isLikedByUser(ServerRequest request) {
 
         UUID userId = UUID.fromString(request.pathVariable("userId"));
@@ -72,5 +52,49 @@ public class LikeHandlerImpl implements LikeHandler {
             .contentType(APPLICATION_JSON)
             .body(status)
         );
+    }
+
+    @Override
+    public ServerResponse like(ServerRequest request) {
+        try {
+
+            UUID postId = UUID.fromString(request.pathVariable(POST_ID));
+            UUID userId = request.body(IdOnly.class).id();
+
+            likeService.like(postId, userId);
+
+            return ok().build();
+
+        } catch (ServletException | IOException | IllegalArgumentException | NullPointerException e) {
+
+            throw new ServerWebInputException(e.getMessage());
+        }
+    }
+
+    @Override
+    public ServerResponse unlike(ServerRequest request) {
+        try {
+
+            UUID postId = UUID.fromString(request.pathVariable(POST_ID));
+            UUID userId = UUID.fromString(request.pathVariable("userId"));
+
+            likeService.unlike(postId, userId);
+
+            return ok().build();
+
+        } catch (IllegalArgumentException | NullPointerException e) {
+
+            throw new ServerWebInputException(e.getMessage());
+        }
+    }
+
+    @Override
+    public ServerResponse getAllLikes(ServerRequest request) {
+
+            return (
+                ok()
+                .contentType(APPLICATION_JSON)
+                .body(likeService.getAllLikes())
+            );
     }
 }
