@@ -17,4 +17,11 @@ public interface LikeRepository extends CrudRepository<Like, LikeKey> {
         WHERE post_id = :postId
     """)
     long countLikesByPostId(@Param("postId") UUID postId);
+
+    @Query("""
+        SELECT *
+        FROM like
+        WHERE post_id = :postId
+    """)
+    Iterable<Like> findAllByPostId(@Param("postId") UUID postId);
 }

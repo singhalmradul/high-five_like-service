@@ -22,6 +22,14 @@ public class Like {
         return new LikeBuilder();
     }
 
+    public UUID getPostId() {
+        return key.getPostId();
+    }
+
+    public UUID getUserId() {
+        return key.getUserId();
+    }
+
     public static class LikeBuilder {
 
         private LikeBuilder() {

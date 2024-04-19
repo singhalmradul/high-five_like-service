@@ -1,8 +1,9 @@
 package io.github.singhalmradul.likeservice.services;
 
+import java.util.List;
 import java.util.UUID;
 
-import io.github.singhalmradul.likeservice.model.Like;
+import io.github.singhalmradul.likeservice.model.LikeRecord;
 
 public interface LikeService {
 
@@ -14,6 +15,8 @@ public interface LikeService {
 
     boolean isLikedByUser(UUID postId, UUID userId);
 
-    Iterable<Like> getAllLikes();
+    List<LikeRecord> getAllLikes();
+
+    List<LikeRecord> getLikesByPostId(UUID postId);
 
 }

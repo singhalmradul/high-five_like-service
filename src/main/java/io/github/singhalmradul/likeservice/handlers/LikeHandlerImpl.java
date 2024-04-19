@@ -97,4 +97,16 @@ public class LikeHandlerImpl implements LikeHandler {
                 .body(likeService.getAllLikes())
             );
     }
+
+    @Override
+    public ServerResponse getLikesByPostId(ServerRequest request) {
+
+            UUID postId = UUID.fromString(request.pathVariable(POST_ID));
+
+            return (
+                ok()
+                .contentType(APPLICATION_JSON)
+                .body(likeService.getLikesByPostId(postId))
+            );
+    }
 }

@@ -1,5 +1,7 @@
 package io.github.singhalmradul.likeservice.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.web.server.ServerWebInputException;
 
 import io.github.singhalmradul.likeservice.model.Like;
 import io.github.singhalmradul.likeservice.model.LikeKey;
+import io.github.singhalmradul.likeservice.model.LikeRecord;
 import io.github.singhalmradul.likeservice.proxies.PostServiceProxy;
 import io.github.singhalmradul.likeservice.proxies.UserServiceProxy;
 import io.github.singhalmradul.likeservice.repositories.LikeRepository;
@@ -65,7 +68,32 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public Iterable<Like> getAllLikes() {
-        return repository.findAll();
+    public List<LikeRecord> getAllLikes() {
+
+        List<LikeRecord> likes = new ArrayList<>();
+
+        repository.findAll().forEach(like ->
+            likes.add(new LikeRecord(
+                like.getPostId(),
+                userServiceProxy.getUserById(like.getUserId())
+            ))
+        );
+
+        return likes;
+    }
+
+    @Override
+    public List<LikeRecord> getLikesByPostId(UUID postId) {
+
+            List<LikeRecord> likes = new ArrayList<>();
+
+            repository.findAllByPostId(postId).forEach(like ->
+                likes.add(new LikeRecord(
+                    like.getPostId(),
+                    userServiceProxy.getUserById(like.getUserId())
+                ))
+            );
+
+            return likes;
     }
 }
