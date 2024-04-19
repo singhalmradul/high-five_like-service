@@ -20,8 +20,9 @@ public class RouterConfiguration {
             .path("/posts/{postId}/likes", builder -> builder
                 .GET("/count", likeHandler::getLikesCountByPostId)
                 .GET("/{userId}", likeHandler::isLikedByUser)
-                .POST(likeHandler::like)
                 .DELETE("/{userId}", likeHandler::unlike)
+                .GET(likeHandler::getLikesByPostId)
+                .POST(likeHandler::like)
             )
             .path("/likes", builder -> builder
                 .GET(likeHandler::getAllLikes)

@@ -14,4 +14,6 @@ public interface LikeHandler {
     ServerResponse isLikedByUser(ServerRequest request);
 
     ServerResponse getAllLikes(ServerRequest request);
+
+    ServerResponse getLikesByPostId(ServerRequest request);
 }
